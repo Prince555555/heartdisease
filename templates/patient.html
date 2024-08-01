@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Data Table</title>
+</head>
+<body>
+    <h1>Prediction Data</h1>
+    <table border="1">
+        <thead id="heading">
+        <tr>
+            <th>ID</th>
+            <th>Age</th>
+            <th>Sex</th>
+            <th>Chest Pain</th>
+            <th>Blood Pressure</th>
+            <th>Cholestrol</th>
+            <th>Fasting Blood Pressure</th>
+            <th>Resting ECG</th>
+            <th>Thalach</th>
+            <th>Exercise Induced Agina</th>
+            <th>Slope</th>
+            <th>CA</th>
+            <th>Thal</th>
+            <th>Prediction</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for row in data %}
+        <tr class="{% if row[13] == 'You are at risk of heart disease.' %}atRisk{% else %}notAtRisk{% endif %}">
+            <td>{{ row[0] }}</td>
+            <td>{{ row[1] }}</td>
+            <td>{{ row[2] }}</td>
+            <td>{{ row[3] }}</td>
+            <td>{{ row[4] }}</td>
+            <td>{{ row[5] }}</td>
+            <td>{{ row[6] }}</td>
+            <td>{{ row[7] }}</td>
+            <td>{{ row[8] }}</td>
+            <td>{{ row[9] }}</td>
+            <td>{{ row[10] }}</td>
+            <td>{{ row[11] }}</td>
+            <td>{{ row[12] }}</td>
+            <td>{{ row[13] }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table> <br><br>
+    <button id="positive">Positive</button><br><br>
+    <script>
+        document.getElementById("positive").addEventListener("click", function() {
+            const tableHeading = document.getElementById("heading");
+            if (tableHeading.style.display === "none") {
+                tableHeading.style.display = "table-header-group"; // Show table heading
+            } 
+            // Toggle the visibility of rows based on the prediction value
+            const rows = document.querySelectorAll("tr");
+            rows.forEach((row) => {
+                if (row.classList.contains("atRisk")) {
+                    row.style.display = "table-row"; // Show at-risk rows
+                } else {
+                    row.style.display = "none"; // Hide non at-risk rows
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+

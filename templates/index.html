@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Heart Disease Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">  
+</head>
+<body>
+    <h1>Heart Disease Prediction</h1>
+    <div class="ml-4">  
+         <form id="predictionForm" method="POST">
+        <label for="age">Age:</label>
+        <input type="number" id="age" required><br><br>
+       
+        <label for="sex">Sex:</label>
+        <select id="sex" required>
+            <option value="1">Male</option>
+            <option value="0">Female</option>
+        </select><br><br>
+
+        <label for="cp">Chest Pain:</label>
+        <select id="cp" required>
+            <option value="0">No Pain</option>
+            <option value="1">Mild Pain</option>
+            <option value="2">Sever Pain</option>
+        </select><br><br>
+
+        <label for="trestbps">Blood Pressure:</label>
+        <input type="number" id="trestbps" required><br><br>
+
+        <label for="chol">Cholestrol:</label>
+        <input type="number" id="chol" required><br><br>
+
+        <label for="fbs">Fasting Blood Pressure:</label>
+        <select id="fbs" required>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br><br>
+
+        <label for="restecg">Resting ECG:</label>
+        <select id="restecg" required>
+            <option value="0">Normal</option>
+            <option value="1">Mild</option>
+            <option value="2">Sever</option>
+        </select><br><br>
+
+        <label for="thalach">THALACH:</label>
+        <input type="number" id="thalach" required><br><br>
+
+        <label for="exang">Exercise Induced Agina:</label>
+        <select id="exang" required>
+            <option value="0">No</option>
+            <option value="1">Yes</option>
+        </select><br><br>
+
+        <label for="slope">Slope:</label>
+        <select id="slope" required>
+            <option value="0">Normal</option>
+            <option value="1">Upward</option>
+            <option value="2">Downward</option>
+        </select><br><br>
+
+        <label for="ca">CA:</label>
+        <select id="ca" required>
+            <option value="0">Normal</option>
+            <option value="1">Mild</option>
+            <option value="2">Sever</option>
+            <option value="3">Very Sever</option>
+        </select><br><br>
+
+        <label for="thal">Thalamessium:</label>
+        <select id="thal" required>
+            <option value="0">No</option>
+            <option value="1">Mild</option>
+            <option value="2">Sever</option>
+            <option value="3">Very</option>
+        </select><br><br>
+        <input type="button" value="Predict" onclick="predictHeartDisease()">
+    </form>
+</div>
+    <h1>Result:</h1>
+    <p id="result"></p>
+
+    <script>
+        function predictHeartDisease() {
+            const age = document.getElementById("age").value;
+            const sex = document.getElementById("sex").value;
+            const cp = document.getElementById("cp").value;
+            const trestbps = document.getElementById("trestbps").value;
+            const chol = document.getElementById("chol").value;
+            const fbs = document.getElementById("fbs").value;
+            const restecg = document.getElementById("restecg").value;
+            const thalach = document.getElementById("thalach").value;
+            const exang = document.getElementById("exang").value; 
+            const slope = document.getElementById("slope").value;  
+            const ca = document.getElementById("ca").value;
+            const thal = document.getElementById("thal").value;
+            const inputData = {
+                "age": parseInt(age),
+                "sex": parseInt(sex),
+                "cp": parseInt(cp),
+                "trestbps": parseInt(trestbps),
+                "chol": parseInt(chol),
+                "fbs": parseInt(fbs),
+                "restecg": parseInt(restecg),
+                "thalach": parseInt(thalach),
+                "exang": parseInt(exang),
+                "slope": parseInt(slope),
+                "ca": parseInt(ca),
+                "thal": parseInt(thal),
+            };
+
+            fetch("/", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(inputData),
+            })
+            .then((response) => response.json())
+            .then((data) => {
+                const predictionResult = document.getElementById("result");
+                predictionResult.innerHTML = "Prediction Result:"+ data.prediction;
+            })
+            .catch((error) => {
+                console.error("Error:", error);
+            });
+        }
+    </script>   
+</body>
+</html>
